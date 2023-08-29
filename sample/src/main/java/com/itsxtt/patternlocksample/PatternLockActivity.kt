@@ -1,15 +1,25 @@
+/**
+ * Copyright 2018 itsxtt
+ * Copyright 2023 Mobi Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.itsxtt.patternlocksample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.itsxtt.patternlock.PatternLockView
-import com.itsxtt.patternlocksample.R
-import kotlinx.android.synthetic.main.activity_pattern_9x9.*
-import kotlinx.android.synthetic.main.activity_pattern_default.*
-import kotlinx.android.synthetic.main.activity_pattern_jd.*
-import kotlinx.android.synthetic.main.activity_pattern_with_indicator.*
-import java.util.ArrayList
 
 
 class PatternLockActivity : AppCompatActivity() {
@@ -19,24 +29,24 @@ class PatternLockActivity : AppCompatActivity() {
         when(type) {
             MainActivity.TYPE_DEFAULT -> {
                 setContentView(R.layout.activity_pattern_default)
-                defaultPatternLockView.setOnPatternListener(listener)
+                findViewById<PatternLockView>(R.id.defaultPatternLockView).setOnPatternListener(listener)
             }
             MainActivity.TYPE_JD_STYLE -> {
                 setContentView(R.layout.activity_pattern_jd)
-                jdPatternLockView.setOnPatternListener(listener)
+                findViewById<PatternLockView>(R.id.jdPatternLockView).setOnPatternListener(listener)
             }
             MainActivity.TYPE_WITH_INDICATOR -> {
                 setContentView(R.layout.activity_pattern_with_indicator)
-                indicatorPatternLockView.setOnPatternListener(listener)
+                findViewById<PatternLockView>(R.id.indicatorPatternLockView).setOnPatternListener(listener)
             }
             MainActivity.TYPE_9x9 -> {
                 setContentView(R.layout.activity_pattern_9x9)
-                ninePatternLockView.setOnPatternListener(listener)
+                findViewById<PatternLockView>(R.id.ninePatternLockView).setOnPatternListener(listener)
             }
             MainActivity.TYPE_SECURE_MODE -> {
                 setContentView(R.layout.activity_pattern_default)
-                defaultPatternLockView.enableSecureMode()
-                defaultPatternLockView.setOnPatternListener(listener)
+                findViewById<PatternLockView>(R.id.defaultPatternLockView).enableSecureMode()
+                        findViewById<PatternLockView>(R.id.defaultPatternLockView).setOnPatternListener(listener)
             }
         }
 

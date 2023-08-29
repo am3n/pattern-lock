@@ -1,9 +1,8 @@
 # Pattern Lock View 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PatternLockView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6988) 
+
+Forked from [https://github.com/itsxtt/pattern-lock](https://github.com/itsxtt/pattern-lock)
 
 Awesome pattern lock view for android written in kotlin.
-
-[demo](https://github.com/itsxtt/pattern-lock/tree/master/apk)
 
 ## Features
 
@@ -153,6 +152,7 @@ You can turn the secure mode on or off via call ```enableSecureMode()``` and ```
 ## License
 
     Copyright 2018 itsxtt
+    Copyright 2023 Mobi Lab
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

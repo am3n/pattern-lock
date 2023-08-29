@@ -1,10 +1,25 @@
+/**
+ * Copyright 2018 itsxtt
+ * Copyright 2023 Mobi Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.itsxtt.patternlocksample
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.itsxtt.patternlocksample.R
-import kotlinx.android.synthetic.main.activity_main.*
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,11 +35,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        defaultBtn.setOnClickListener { _-> startPatternActivity(TYPE_DEFAULT) }
-        jdStyleBtn.setOnClickListener { _-> startPatternActivity(TYPE_JD_STYLE) }
-        indicatorBtn.setOnClickListener { _-> startPatternActivity(TYPE_WITH_INDICATOR) }
-        nineBtn.setOnClickListener { _-> startPatternActivity(TYPE_9x9) }
-        secureModeBtn.setOnClickListener { _-> startPatternActivity(TYPE_SECURE_MODE) }
+        findViewById<View>(R.id.defaultBtn).setOnClickListener { startPatternActivity(TYPE_DEFAULT) }
+        findViewById<View>(R.id.jdStyleBtn).setOnClickListener { startPatternActivity(TYPE_JD_STYLE) }
+        findViewById<View>(R.id.indicatorBtn).setOnClickListener { startPatternActivity(TYPE_WITH_INDICATOR) }
+        findViewById<View>(R.id.nineBtn).setOnClickListener { startPatternActivity(TYPE_9x9) }
+        findViewById<View>(R.id.secureModeBtn).setOnClickListener { startPatternActivity(TYPE_SECURE_MODE) }
     }
 
     private fun startPatternActivity(type: Int) {
