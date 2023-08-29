@@ -13,10 +13,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    compileSdkVersion 33
     defaultConfig {
         applicationId "com.itsxtt.patternlocksample"
         minSdkVersion 15
+        compileSdk 33
         targetSdkVersion 33
         versionCode 2
         versionName "1.1"
