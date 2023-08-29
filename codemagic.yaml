@@ -1,0 +1,82 @@
+# Has a separate flows for develop branch (automatic builds),
+# Merge Request (automatic builds) and master branch Release builds (manual builds).
+
+android_artifacts: &androidArtifacts # Section def
+  - emulator.log
+  - library/build/reports
+  - library/build/outputs/androidTest-results
+  - library/build/outputs/logs
+  - library/build/outputs/**/*.aar
+  - library/build/outputs/**/mapping.txt
+
+debug-emails: &debugEmails
+  - lauris.kruusamae@lab.mobi
+
+release-emails: &releaseEmails
+  - lauris.kruusamae@lab.mobi
+
+# Flows
+workflows:
+  release-builds:
+    name: Release Builds
+    instance_type: linux
+    environment:
+      java: 17
+    scripts:
+      - name: Check 'main' branch
+        script: if [ "$FCI_BRANCH" != "main" ]; then exit 1; fi
+      - &stepLocalSetup # Step def
+        name: Set up local properties and permissons
+        script: |
+          chmod +x gradlew
+          echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/local.properties"
+      - &stepBuildRelease # Step Def
+        name: Build Android
+        script: ./gradlew build
+    publishing:
+      email:
+        recipients: *releaseEmails
+    artifacts: *androidArtifacts
+  develop-builds:
+    name: Develop builds
+    instance_type: linux
+    environment:
+      java: 17
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: true
+    scripts:
+      - *stepLocalSetup
+      - &stepBuildDebug # Step def
+        name: Build Android
+        script: ./gradlew build
+    artifacts: *androidArtifacts
+    publishing:
+      email:
+        recipients: *debugEmails
+  merge-requests:
+    name: Merge requests
+    instance_type: linux
+    environment:
+      java: 17
+    triggering:
+      events:
+        - pull_request
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: false
+      cancel_previous_builds: true
+    scripts:
+      - *stepLocalSetup
+      - *stepBuildDebug
+    publishing:
+      email:
+        recipients: *debugEmails
+        notify:
+          success: false
