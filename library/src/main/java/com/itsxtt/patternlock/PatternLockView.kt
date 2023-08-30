@@ -320,7 +320,8 @@ class PatternLockView : GridLayout {
     private fun generateSelectedIds() : ArrayList<Int> {
         var result = ArrayList<Int>()
         for(cell in selectedCells) {
-            result.add(cell.index)
+            // Start from 1
+            result.add(cell.index + 1)
         }
         return result
     }
