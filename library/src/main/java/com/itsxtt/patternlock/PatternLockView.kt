@@ -351,6 +351,10 @@ class PatternLockView : GridLayout {
         autoResetEnabled = enabled
     }
 
+    fun getSelectedIds(): ArrayList<Int> {
+        return generateSelectedIds()
+    }
+
     interface OnPatternListener {
         fun onStarted(){}
         fun onProgress(ids: ArrayList<Int>){}
