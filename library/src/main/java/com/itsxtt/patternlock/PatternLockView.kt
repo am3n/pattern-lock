@@ -17,7 +17,9 @@
 package com.itsxtt.patternlock
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -25,7 +27,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import androidx.core.content.ContextCompat
-import java.util.*
 
 
 class PatternLockView : GridLayout {
@@ -307,6 +308,9 @@ class PatternLockView : GridLayout {
         if (isCorrect != null && isCorrect) {
             if (autoResetEnabled) {
                 reset()
+            } else {
+                // Reset the path to selected cells only
+                invalidate()
             }
         } else {
             onError()
