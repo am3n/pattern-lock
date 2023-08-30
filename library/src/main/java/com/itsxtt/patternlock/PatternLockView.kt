@@ -19,12 +19,12 @@ package com.itsxtt.patternlock
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
+import androidx.core.content.ContextCompat
 import java.util.*
 
 
@@ -39,6 +39,7 @@ class PatternLockView : GridLayout {
         const val DEFAULT_ERROR_DURATION = 400 // unit: ms
         const val DEFAULT_HIT_AREA_PADDING_RATIO = 0.2f
         const val DEFAULT_INDICATOR_SIZE_RATIO = 0.2f
+        const val DEFAULT_AUTO_RESET = true
 
         const val LINE_STYLE_COMMON = 1
         const val LINE_STYLE_INDICATOR = 2
@@ -55,6 +56,8 @@ class PatternLockView : GridLayout {
     private var errorCellBackground: Drawable? = null
     private var errorDotColor: Int = 0
     private var errorDotRadiusRatio: Float = 0f
+
+    private var autoResetEnabled: Boolean = DEFAULT_AUTO_RESET
 
     /**
      * determine the line's style
@@ -121,6 +124,7 @@ class PatternLockView : GridLayout {
         errorDuration = ta.getInteger(R.styleable.PatternLockView_plv_errorDuration, DEFAULT_ERROR_DURATION)
         hitAreaPaddingRatio = ta.getFloat(R.styleable.PatternLockView_plv_hitAreaPaddingRatio, DEFAULT_HIT_AREA_PADDING_RATIO)
         indicatorSizeRatio = ta.getFloat(R.styleable.PatternLockView_plv_indicatorSizeRatio, DEFAULT_INDICATOR_SIZE_RATIO)
+        autoResetEnabled = ta.getBoolean(R.styleable.PatternLockView_plv_autoReset, DEFAULT_AUTO_RESET)
 
         ta.recycle()
 
@@ -134,6 +138,7 @@ class PatternLockView : GridLayout {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
+                reset()
                 var hitCell = getHitCell(event.x.toInt(), event.y.toInt())
                 if (hitCell == null) {
                     return false
@@ -255,7 +260,7 @@ class PatternLockView : GridLayout {
         linePaint.color = regularLineColor
     }
 
-    private fun reset() {
+    fun reset() {
         for(cell in selectedCells) {
             cell.reset()
         }
@@ -300,7 +305,9 @@ class PatternLockView : GridLayout {
 
         var isCorrect = onPatternListener?.onComplete(generateSelectedIds())
         if (isCorrect != null && isCorrect) {
-            reset()
+            if (autoResetEnabled) {
+                reset()
+            }
         } else {
             onError()
         }
@@ -325,14 +332,19 @@ class PatternLockView : GridLayout {
         linePaint.color = errorLineColor
         invalidate()
 
-        postDelayed({
-            reset()
-        }, errorDuration.toLong())
-
+        if (autoResetEnabled) {
+            postDelayed({
+                reset()
+            }, errorDuration.toLong())
+        }
     }
 
     fun setOnPatternListener(listener: OnPatternListener) {
         onPatternListener = listener
+    }
+
+    fun setAutoResetEnabled(enabled: Boolean) {
+        autoResetEnabled = enabled
     }
 
     interface OnPatternListener {
