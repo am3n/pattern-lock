@@ -37,9 +37,9 @@ android {
             String versionName = project.android.defaultConfig.versionName
             if (variant.buildType.getName().contains("release")) {
                 // Don't add the variant name to release artefacts
-                outputFileName = "pattern-lock-${versionName}.aar"
+                outputFileName = "patternlock-${versionName}.aar"
             } else {
-                outputFileName = "pattern-lock-${variant.name}-${versionName}.aar"
+                outputFileName = "patternlock-${variant.name}-${versionName}.aar"
             }
         }
     }
