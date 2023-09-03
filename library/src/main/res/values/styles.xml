@@ -10,6 +10,9 @@
         <item name="plv_errorDotColor">@color/errorColor</item>
         <item name="plv_regularLineColor">@color/selectedColor</item>
         <item name="plv_errorLineColor">@color/errorColor</item>
+        <item name="plv_successLineColor">@color/successColor</item>
+        <item name="plv_successDotColor">@color/successColor</item>
+        <item name="plv_successCellBackground">#334CAF50</item>
         <item name="plv_spacing">32dp</item>
     </style>
 
@@ -19,9 +22,12 @@
         <item name="plv_selectedDotColor">@color/selectedColor</item>
         <item name="plv_errorCellBackground">@drawable/with_indicator_error_bg</item>
         <item name="plv_errorDotColor">@color/errorColor</item>
+        <item name="plv_successDotColor">@color/successColor</item>
+        <item name="plv_successCellBackground">@drawable/with_indicator_success_bg</item>
         <item name="plv_lineStyle">indicator</item>
         <item name="plv_regularLineColor">@color/selectedColor</item>
         <item name="plv_errorLineColor">@color/errorColor</item>
+        <item name="plv_successLineColor">@color/successColor</item>
         <item name="plv_spacing">32dp</item>
     </style>
 

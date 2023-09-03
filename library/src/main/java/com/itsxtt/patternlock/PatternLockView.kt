@@ -58,6 +58,10 @@ class PatternLockView : GridLayout {
     private var errorDotColor: Int = 0
     private var errorDotRadiusRatio: Float = 0f
 
+    private var successCellBackground: Drawable? = null
+    private var successDotColor: Int = 0
+    private var successDotRadiusRatio: Float = 0f
+
     private var autoResetEnabled: Boolean = DEFAULT_AUTO_RESET
 
     /**
@@ -71,6 +75,7 @@ class PatternLockView : GridLayout {
     private var lineWidth: Int = 0
     private var regularLineColor: Int = 0
     private var errorLineColor: Int = 0
+    private var successLineColor: Int = 0
 
     private var spacing: Int = 0
 
@@ -110,11 +115,16 @@ class PatternLockView : GridLayout {
         errorDotColor = ta.getColor(R.styleable.PatternLockView_plv_errorDotColor, ContextCompat.getColor(context, R.color.errorColor))
         errorDotRadiusRatio = ta.getFloat(R.styleable.PatternLockView_plv_errorDotRadiusRatio, DEFAULT_RADIUS_RATIO)
 
+        successCellBackground = ta.getDrawable(R.styleable.PatternLockView_plv_successCellBackground)
+        successDotColor = ta.getColor(R.styleable.PatternLockView_plv_successDotColor, ContextCompat.getColor(context, R.color.selectedColor))
+        successDotRadiusRatio = ta.getFloat(R.styleable.PatternLockView_plv_successDotRadiusRatio, DEFAULT_RADIUS_RATIO)
+
         lineStyle = ta.getInt(R.styleable.PatternLockView_plv_lineStyle, 1)
         lineWidth = ta.getDimensionPixelSize(R.styleable.PatternLockView_plv_lineWidth,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LINE_WIDTH, context.resources.displayMetrics).toInt())
         regularLineColor = ta.getColor(R.styleable.PatternLockView_plv_regularLineColor, ContextCompat.getColor(context, R.color.selectedColor))
         errorLineColor = ta.getColor(R.styleable.PatternLockView_plv_errorLineColor, ContextCompat.getColor(context, R.color.errorColor))
+        successLineColor = ta.getColor(R.styleable.PatternLockView_plv_successLineColor, ContextCompat.getColor(context, R.color.selectedColor))
 
         spacing = ta.getDimensionPixelSize(R.styleable.PatternLockView_plv_spacing,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SPACING, context.resources.displayMetrics).toInt())
@@ -240,7 +250,8 @@ class PatternLockView : GridLayout {
                         regularCellBackground, regularDotColor, regularDotRadiusRatio,
                         selectedCellBackground, selectedDotColor, selectedDotRadiusRatio,
                         errorCellBackground, errorDotColor, errorDotRadiusRatio,
-                        lineStyle, regularLineColor, errorLineColor, plvColumnCount, indicatorSizeRatio)
+                        successCellBackground, successDotColor, successDotRadiusRatio,
+                        lineStyle, regularLineColor, errorLineColor, successLineColor, plvColumnCount, indicatorSizeRatio)
                 var cellPadding = spacing / 2
                 cell.setPadding(cellPadding, cellPadding, cellPadding, cellPadding)
                 addView(cell)
@@ -306,12 +317,7 @@ class PatternLockView : GridLayout {
 
         var isCorrect = onPatternListener?.onComplete(generateSelectedIds())
         if (isCorrect != null && isCorrect) {
-            if (autoResetEnabled) {
-                reset()
-            } else {
-                // Reset the path to selected cells only
-                invalidate()
-            }
+            onSuccess()
         } else {
             onError()
         }
@@ -319,11 +325,26 @@ class PatternLockView : GridLayout {
 
     private fun generateSelectedIds() : ArrayList<Int> {
         var result = ArrayList<Int>()
-        for(cell in selectedCells) {
+        for (cell in selectedCells) {
             // Start from 1
             result.add(cell.index + 1)
         }
         return result
+    }
+
+    private fun onSuccess() {
+        if (autoResetEnabled) {
+            reset()
+            return
+        }
+
+        for (cell in selectedCells) {
+            cell.setState(State.SUCCESS)
+        }
+        linePaint.color = successLineColor
+
+        // Also resets the path to selected cells only
+        invalidate()
     }
 
     private fun onError() {

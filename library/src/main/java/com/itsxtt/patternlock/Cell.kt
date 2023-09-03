@@ -1,3 +1,19 @@
+/**
+ * Copyright 2018 itsxtt
+ * Copyright 2023 Mobi Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.itsxtt.patternlock
 
 import android.content.Context
@@ -20,9 +36,13 @@ internal class Cell(context: Context,
                     private var errorCellBackground: Drawable?,
                     private var errorDotColor: Int,
                     private var errorDotRadiusRatio: Float,
+                    private var successCellBackground: Drawable?,
+                    private var successDotColor: Int,
+                    private var successDotRadiusRatio: Float,
                     private var lineStyle: Int,
                     private var regularLineColor: Int,
                     private var errorLineColor: Int,
+                    private var successLineColor: Int,
                     private var columnCount: Int,
                     private var indicatorSizeRatio: Float) : View(context) {
 
@@ -42,6 +62,7 @@ internal class Cell(context: Context,
             State.REGULAR -> drawDot(canvas, regularCellBackground, regularDotColor, regularDotRadiusRatio)
             State.SELECTED -> drawDot(canvas, selectedCellBackground, selectedDotColor, selectedDotRadiusRatio)
             State.ERROR -> drawDot(canvas, errorCellBackground, errorDotColor, errorDotRadiusRatio)
+            State.SUCCESS -> drawDot(canvas, successCellBackground, successDotColor, successDotRadiusRatio)
         }
     }
 
@@ -86,6 +107,8 @@ internal class Cell(context: Context,
 
             if (currentState == State.SELECTED) {
                 paint.color = regularLineColor
+            } else if (currentState == State.SUCCESS) {
+                paint.color = successLineColor
             } else {
                 paint.color = errorLineColor
             }
