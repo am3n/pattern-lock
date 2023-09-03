@@ -50,6 +50,7 @@
         <attr name="plv_columnCount" format="integer"/>
 
         <attr name="plv_errorDuration" format="integer"/>
+        <attr name="plv_successDuration" format="integer"/>
         <attr name="plv_hitAreaPaddingRatio" format="float"/>
         <attr name="plv_indicatorSizeRatio" format="float"/>
         <attr name="plv_autoReset" format="boolean"/>

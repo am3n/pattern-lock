@@ -38,6 +38,7 @@ class PatternLockView : GridLayout {
         const val DEFAULT_ROW_COUNT = 3
         const val DEFAULT_COLUMN_COUNT = 3
         const val DEFAULT_ERROR_DURATION = 400 // unit: ms
+        const val DEFAULT_SUCCESS_DURATION = 400 // unit: ms
         const val DEFAULT_HIT_AREA_PADDING_RATIO = 0.2f
         const val DEFAULT_INDICATOR_SIZE_RATIO = 0.2f
         const val DEFAULT_AUTO_RESET = true
@@ -83,6 +84,7 @@ class PatternLockView : GridLayout {
     private var plvColumnCount: Int = 0
 
     private var errorDuration: Int = 0
+    private var successDuration: Int = 0
     private var hitAreaPaddingRatio: Float = 0f
     private var indicatorSizeRatio: Float = 0f
 
@@ -133,6 +135,7 @@ class PatternLockView : GridLayout {
         plvColumnCount = ta.getInteger(R.styleable.PatternLockView_plv_columnCount, DEFAULT_COLUMN_COUNT)
 
         errorDuration = ta.getInteger(R.styleable.PatternLockView_plv_errorDuration, DEFAULT_ERROR_DURATION)
+        successDuration = ta.getInteger(R.styleable.PatternLockView_plv_successDuration, DEFAULT_SUCCESS_DURATION)
         hitAreaPaddingRatio = ta.getFloat(R.styleable.PatternLockView_plv_hitAreaPaddingRatio, DEFAULT_HIT_AREA_PADDING_RATIO)
         indicatorSizeRatio = ta.getFloat(R.styleable.PatternLockView_plv_indicatorSizeRatio, DEFAULT_INDICATOR_SIZE_RATIO)
         autoResetEnabled = ta.getBoolean(R.styleable.PatternLockView_plv_autoReset, DEFAULT_AUTO_RESET)
@@ -333,11 +336,6 @@ class PatternLockView : GridLayout {
     }
 
     private fun onSuccess() {
-        if (autoResetEnabled) {
-            reset()
-            return
-        }
-
         for (cell in selectedCells) {
             cell.setState(State.SUCCESS)
         }
@@ -345,6 +343,12 @@ class PatternLockView : GridLayout {
 
         // Also resets the path to selected cells only
         invalidate()
+
+        if (autoResetEnabled) {
+            postDelayed({
+                reset()
+            }, successDuration.toLong())
+        }
     }
 
     private fun onError() {
