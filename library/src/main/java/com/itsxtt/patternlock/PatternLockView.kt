@@ -150,6 +150,10 @@ class PatternLockView : GridLayout {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (!isEnabled) {
+            // Ignore
+            return true
+        }
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 reset()
