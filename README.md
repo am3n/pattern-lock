@@ -142,6 +142,9 @@ You can turn the secure mode on or off via call ```enableSecureMode()``` and ```
 
 ## Change Log
 
+### 0.4.0 (2023-10-04)
+* ignore touch events when PatternLockView is disabled
+
 ### 0.3.0 (2023-08-30)
 * start node indices from 1 instead of 0
 * add auto reset boolean flag to disable automatically resetting the pin
