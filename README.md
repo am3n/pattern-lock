@@ -142,21 +142,24 @@ You can turn the secure mode on or off via call ```enableSecureMode()``` and ```
 
 ## Change Log
 
+### 0.4.1 (2023-11-06)
+* Add support for changing success dot and line color at runtime
+
 ### 0.4.0 (2023-10-04)
-* ignore touch events when PatternLockView is disabled
+* Ignore touch events when PatternLockView is disabled
 
 ### 0.3.0 (2023-08-30)
-* start node indices from 1 instead of 0
-* add auto reset boolean flag to disable automatically resetting the pin
-* add getSelectedIds() function to get the currently selected node ids
-* add success color and mode. Only shown when auto reset flag is not set
+* Start node indices from 1 instead of 0
+* Add auto reset boolean flag to disable automatically resetting the pin
+* Add getSelectedIds() function to get the currently selected node ids
+* Add success color and mode. Only shown when auto reset flag is not set
 
 ### 0.2.0 (2021-10-08)
-* migrate to androidx
-* migrate to mavenCentral
+* Migrate to androidx
+* Migrate to mavenCentral
 
 ### 0.1.0 (2018-05-31)
-* first release
+* First release
 
 ## License
 

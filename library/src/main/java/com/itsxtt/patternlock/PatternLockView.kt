@@ -26,6 +26,7 @@ import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 
 
@@ -299,6 +300,19 @@ class PatternLockView : GridLayout {
 
     fun disableSecureMode() {
         isSecureMode = false
+    }
+
+    fun setSuccessLineColor(@ColorInt color: Int) {
+        successLineColor = color
+        invalidate()
+    }
+
+    fun setSuccessDotColor(@ColorInt color: Int) {
+        successDotColor = color
+        for (cell in cells) {
+            cell.setSuccessDotColor(color)
+            cell.invalidate()
+        }
     }
 
     private fun getHitCell(x: Int, y: Int) : Cell? {

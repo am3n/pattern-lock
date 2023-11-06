@@ -24,6 +24,7 @@ import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.annotation.ColorInt
 
 internal class Cell(context: Context,
                     var index: Int,
@@ -147,4 +148,7 @@ internal class Cell(context: Context,
         currentDegree = -1f
     }
 
+    fun setSuccessDotColor(@ColorInt color: Int) {
+        this.successDotColor = color
+    }
  }
