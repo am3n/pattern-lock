@@ -22,11 +22,12 @@ allprojects {
         mavenCentral()
     }
 
-    plugins.withId("com.vanniktech.maven.publish") {
+    /*plugins.withId("com.vanniktech.maven.publish") {
         mavenPublish {
             sonatypeHost = "S01"
         }
-    }
+    }*/
+
 }
 
 task clean(type: Delete) {
