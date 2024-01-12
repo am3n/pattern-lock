@@ -144,6 +144,9 @@ You can turn the secure mode on or off via call ```enableSecureMode()``` and ```
 
 ## Change Log
 
+### 1.1.0 (2024-01-12)
+* Selecting the cells that the pattern jumps over
+
 ### 1.0.0 (2024-01-03)
 * Add to jitpack.io repo
 
