@@ -1,6 +1,8 @@
 # Pattern Lock View 
+![MinAPI](https://img.shields.io/badge/API-15%2B-blue)
+[![Release](https://jitpack.io/v/am3n/pattern-lock.svg)](https://jitpack.io/#am3n/RTSP-Client-Android)
 
-Forked from [https://github.com/itsxtt/pattern-lock](https://github.com/itsxtt/pattern-lock)
+Forked from [LabMobi/pattern-lock](https://github.com/LabMobi/pattern-lock) & [l7naive/pattern-lock](https://github.com/l7naive/pattern-lock)
 
 Awesome pattern lock view for android written in kotlin.
 
@@ -27,13 +29,13 @@ Top level build file:
 ``` gradle
 allprojects {
     repositories {
-        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
 In your application build file:
 ``` gradle
-implementation 'io.github.itsxtt:pattern-lock:0.2.0'
+implementation 'com.github.am3n:pattern-lock:NEWEST-VERSION'
 ```
 
 ### XML
@@ -141,6 +143,9 @@ You can turn the secure mode on or off via call ```enableSecureMode()``` and ```
 
 
 ## Change Log
+
+### 1.0.0 (2024-01-03)
+* Add to jitpack.io repo
 
 ### 0.4.1 (2023-11-06)
 * Add support for changing success dot and line color at runtime
