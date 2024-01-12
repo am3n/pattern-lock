@@ -23,43 +23,92 @@ import android.graphics.Path
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
+import kotlin.math.min
 
-internal class Cell(context: Context,
-                    var index: Int,
-                    private var regularCellBackground: Drawable?,
-                    private var regularDotColor: Int,
-                    private var regularDotRadiusRatio: Float,
-                    private var selectedCellBackground: Drawable?,
-                    private var selectedDotColor: Int,
-                    private var selectedDotRadiusRatio: Float,
-                    private var errorCellBackground: Drawable?,
-                    private var errorDotColor: Int,
-                    private var errorDotRadiusRatio: Float,
-                    private var successCellBackground: Drawable?,
-                    private var successDotColor: Int,
-                    private var successDotRadiusRatio: Float,
-                    private var lineStyle: Int,
-                    private var regularLineColor: Int,
-                    private var errorLineColor: Int,
-                    private var successLineColor: Int,
-                    private var columnCount: Int,
-                    private var indicatorSizeRatio: Float) : View(context) {
+internal class Cell @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+
+    var index: Int = 0
+
+    private var regularCellBackground: Drawable? = null
+    private var regularDotColor: Int = 0
+    private var regularDotRadiusRatio: Float = 0f
+    private var selectedCellBackground: Drawable? = null
+    private var selectedDotColor: Int = 0
+    private var selectedDotRadiusRatio: Float = 0f
+    private var errorCellBackground: Drawable? = null
+    private var errorDotColor: Int = 0
+    private var errorDotRadiusRatio: Float = 0f
+    private var successCellBackground: Drawable? = null
+    private var successDotColor: Int = 0
+    private var successDotRadiusRatio: Float = 0f
+    private var lineStyle: Int = 0
+    private var regularLineColor: Int = 0
+    private var errorLineColor: Int = 0
+    private var successLineColor: Int = 0
+    private var columnCount: Int = 0
+    private var indicatorSizeRatio: Float = 0f
 
     private var currentState: State = State.REGULAR
     private var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private var currentDegree: Float = -1f
     private var indicatorPath: Path = Path()
 
+    fun init(
+        index: Int,
+        regularCellBackground: Drawable?,
+        regularDotColor: Int,
+        regularDotRadiusRatio: Float,
+        selectedCellBackground: Drawable?,
+        selectedDotColor: Int,
+        selectedDotRadiusRatio: Float,
+        errorCellBackground: Drawable?,
+        errorDotColor: Int,
+        errorDotRadiusRatio: Float,
+        successCellBackground: Drawable?,
+        successDotColor: Int,
+        successDotRadiusRatio: Float,
+        lineStyle: Int,
+        regularLineColor: Int,
+        errorLineColor: Int,
+        successLineColor: Int,
+        columnCount: Int,
+        indicatorSizeRatio: Float
+    ) {
+        this.index = index
+        this.regularCellBackground = regularCellBackground
+        this.regularDotColor = regularDotColor
+        this.regularDotRadiusRatio = regularDotRadiusRatio
+        this.selectedCellBackground = selectedCellBackground
+        this.selectedDotColor = selectedDotColor
+        this.selectedDotRadiusRatio = selectedDotRadiusRatio
+        this.errorCellBackground = errorCellBackground
+        this.errorDotColor = errorDotColor
+        this.errorDotRadiusRatio = errorDotRadiusRatio
+        this.successCellBackground = successCellBackground
+        this.successDotColor = successDotColor
+        this.successDotRadiusRatio = successDotRadiusRatio
+        this.lineStyle = lineStyle
+        this.regularLineColor = regularLineColor
+        this.errorLineColor = errorLineColor
+        this.successLineColor = successLineColor
+        this.columnCount = columnCount
+        this.indicatorSizeRatio = indicatorSizeRatio
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var cellWidth = MeasureSpec.getSize(widthMeasureSpec) / columnCount
-        var cellHeight = cellWidth
-        setMeasuredDimension(cellWidth, cellHeight)
+        val cellWidth = MeasureSpec.getSize(widthMeasureSpec) / columnCount
+        setMeasuredDimension(cellWidth, cellWidth)
     }
 
     override fun onDraw(canvas: Canvas?) {
-        when(currentState) {
+        when (currentState) {
             State.REGULAR -> drawDot(canvas, regularCellBackground, regularDotColor, regularDotRadiusRatio)
             State.SELECTED -> drawDot(canvas, selectedCellBackground, selectedDotColor, selectedDotRadiusRatio)
             State.ERROR -> drawDot(canvas, errorCellBackground, errorDotColor, errorDotRadiusRatio)
@@ -67,13 +116,15 @@ internal class Cell(context: Context,
         }
     }
 
-    private fun drawDot(canvas: Canvas?,
-                        background: Drawable?,
-                        dotColor: Int,
-                        radiusRation: Float) {
-        var radius = getRadius()
-        var centerX = width / 2
-        var centerY = height / 2
+    private fun drawDot(
+        canvas: Canvas?,
+        background: Drawable?,
+        dotColor: Int,
+        radiusRation: Float
+    ) {
+        val radius = getRadius()
+        val centerX = width / 2
+        val centerY = height / 2
 
         if (background is ColorDrawable) {
             paint.color = background.color
@@ -89,7 +140,8 @@ internal class Cell(context: Context,
         canvas?.drawCircle(centerX.toFloat(), centerY.toFloat(), radius * radiusRation, paint)
 
         if (lineStyle == PatternLockView.LINE_STYLE_INDICATOR &&
-                (currentState == State.SELECTED || currentState == State.ERROR)) {
+            (currentState == State.SELECTED || currentState == State.ERROR)
+        ) {
             drawIndicator(canvas)
         }
     }
@@ -100,18 +152,25 @@ internal class Cell(context: Context,
                 indicatorPath.fillType = Path.FillType.WINDING
                 val radius = getRadius()
                 val height = radius * indicatorSizeRatio
-                indicatorPath.moveTo((width / 2).toFloat() , radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + paddingTop)
-                indicatorPath.lineTo((width /2).toFloat() - height, radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + height + paddingTop)
-                indicatorPath.lineTo((width / 2).toFloat() + height, radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + height + paddingTop)
+                indicatorPath.moveTo(
+                    (width / 2).toFloat(),
+                    radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + paddingTop
+                )
+                indicatorPath.lineTo(
+                    (width / 2).toFloat() - height,
+                    radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + height + paddingTop
+                )
+                indicatorPath.lineTo(
+                    (width / 2).toFloat() + height,
+                    radius * (1 - selectedDotRadiusRatio - indicatorSizeRatio) / 2 + height + paddingTop
+                )
                 indicatorPath.close()
             }
 
-            if (currentState == State.SELECTED) {
-                paint.color = regularLineColor
-            } else if (currentState == State.SUCCESS) {
-                paint.color = successLineColor
-            } else {
-                paint.color = errorLineColor
+            paint.color = when (currentState) {
+                State.SELECTED -> regularLineColor
+                State.SUCCESS -> successLineColor
+                else -> errorLineColor
             }
             paint.style = Paint.Style.FILL
 
@@ -122,13 +181,13 @@ internal class Cell(context: Context,
         }
     }
 
-    fun getRadius() : Int {
-        return (Math.min(width, height) - (paddingLeft + paddingRight)) / 2
+    fun getRadius(): Int {
+        return (min(width, height) - (paddingLeft + paddingRight)) / 2
     }
 
 
-    fun getCenter() : Point {
-        var point = Point()
+    fun getCenter(): Point {
+        val point = Point()
         point.x = left + (right - left) / 2
         point.y = top + (bottom - top) / 2
         return point
@@ -151,4 +210,5 @@ internal class Cell(context: Context,
     fun setSuccessDotColor(@ColorInt color: Int) {
         this.successDotColor = color
     }
- }
+
+}
