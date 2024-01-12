@@ -233,38 +233,201 @@ class PatternLockView : GridLayout {
     }
 
     private fun notifyCellSelected(cell: Cell) {
+
+        // Selecting the cells that the pattern jumps over
+        var addedNotConsideredCell = false
+        val lastCell = selectedCells.lastOrNull()
+        if (lastCell?.index == 0) {
+            if (cell.index == 2) {
+                if (!selectedCells.contains(cells[1])) {
+                    selectedCells.add(cells[1])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[1].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 6) {
+                if (!selectedCells.contains(cells[3])) {
+                    selectedCells.add(cells[3])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[3].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 8) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 1) {
+            if (cell.index == 7) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 2) {
+            if (cell.index == 0) {
+                if (!selectedCells.contains(cells[1])) {
+                    selectedCells.add(cells[1])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[1].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 6) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 8) {
+                if (!selectedCells.contains(cells[5])) {
+                    selectedCells.add(cells[5])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[5].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 3) {
+            if (cell.index == 5) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 5) {
+            if (cell.index == 3) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 6) {
+            if (cell.index == 0) {
+                if (!selectedCells.contains(cells[3])) {
+                    selectedCells.add(cells[3])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[3].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 2) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 8) {
+                if (!selectedCells.contains(cells[7])) {
+                    selectedCells.add(cells[7])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[7].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 7) {
+            if (cell.index == 1) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        } else if (lastCell?.index == 8) {
+            if (cell.index == 0) {
+                if (!selectedCells.contains(cells[4])) {
+                    selectedCells.add(cells[4])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[4].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 2) {
+                if (!selectedCells.contains(cells[5])) {
+                    selectedCells.add(cells[5])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[5].setState(State.SELECTED)
+                    }
+                }
+            } else if (cell.index == 6) {
+                if (!selectedCells.contains(cells[7])) {
+                    selectedCells.add(cells[7])
+                    addedNotConsideredCell = true
+                    if (!isSecureMode) {
+                        cells[7].setState(State.SELECTED)
+                    }
+                }
+            }
+
+        }
+
         selectedCells.add(cell)
         onPatternListener?.onProgress(generateSelectedIds())
+
         if (isSecureMode) return
+
         cell.setState(State.SELECTED)
         val center = cell.getCenter()
         if (selectedCells.size == 1) {
             if (lineStyle == LINE_STYLE_COMMON) {
                 linePath.moveTo(center.x.toFloat(), center.y.toFloat())
             }
+
         } else {
             if (lineStyle == LINE_STYLE_COMMON) {
                 linePath.lineTo(center.x.toFloat(), center.y.toFloat())
+
             } else if (lineStyle == LINE_STYLE_INDICATOR) {
-                val previousCell = selectedCells[selectedCells.size - 2]
-                val previousCellCenter = previousCell.getCenter()
-                val diffX = center.x - previousCellCenter.x
-                val diffY = center.y - previousCellCenter.y
-                val radius = cell.getRadius()
-                val length = sqrt((diffX * diffX + diffY * diffY).toDouble())
-
-                linePath.moveTo(
-                    (previousCellCenter.x + radius * diffX / length).toFloat(),
-                    (previousCellCenter.y + radius * diffY / length).toFloat()
-                )
-                linePath.lineTo(
-                    (center.x - radius * diffX / length).toFloat(),
-                    (center.y - radius * diffY / length).toFloat()
-                )
-
-                val degree = Math.toDegrees(atan2(diffY.toDouble(), diffX.toDouble())) + 90
-                previousCell.setDegree(degree.toFloat())
-                previousCell.invalidate()
+                val previousCellsCount = if (addedNotConsideredCell) 2 else 1
+                for (i in previousCellsCount downTo  1) {
+                    val previousCell = selectedCells[selectedCells.size - 1 - i]
+                    val previousCellCenter = previousCell.getCenter()
+                    val diffX = center.x - previousCellCenter.x
+                    val diffY = center.y - previousCellCenter.y
+                    val radius = cell.getRadius()
+                    val length = sqrt((diffX * diffX + diffY * diffY).toDouble())
+                    linePath.moveTo(
+                        (previousCellCenter.x + radius * diffX / length).toFloat(),
+                        (previousCellCenter.y + radius * diffY / length).toFloat()
+                    )
+                    linePath.lineTo(
+                        (center.x - radius * diffX / length).toFloat(),
+                        (center.y - radius * diffY / length).toFloat()
+                    )
+                    val degree = Math.toDegrees(atan2(diffY.toDouble(), diffX.toDouble())) + 90
+                    previousCell.setDegree(degree.toFloat())
+                    previousCell.invalidate()
+                }
             }
         }
     }
